@@ -1,4 +1,5 @@
 # Gerador de Azulejos
+
 ## Inteligência Artificial para a Reprodução da Estética Patrimonial Portuguesa
 
 ### Índice
