@@ -1,16 +1,29 @@
-# Inteligência Artificial para a Reprodução da Estética Patrimonial Portuguesa
-
-## Gerador de Azulejos
+# Gerador de Azulejos
+## Inteligência Artificial para a Reprodução da Estética Patrimonial Portuguesa
 
 ---
 
-## ABSTRACT
+## Índice
+
+- [ABSTRACT](#abstract)
+- [INTRODUÇÃO](#introdução)
+- [DESIGN DE SUPERFÍCIE](#design-de-superfície)
+- [AZULEJO, PORTUGAL, ARTE E CULTURA](#azulejo-portugal-arte-e-cultura)
+- [INTELIGÊNCIA ARTIFICIAL](#inteligência-artificial)
+- [GENERATIVE ADVERSARIAL NETWORKS (GANs)](#generative-adversarial-networks-gans)
+- [METODOLOGIA](#metodologia)
+- [CONCLUSÃO](#conclusão)
+- [REFERÊNCIAS](#referências)
+
+---
+
+### ABSTRACT
 
 Este trabalho tem por objetivo a criação de um software gerador de imagens. O output esperado por esta aplicação será um módulo inspirado nos padrões da azulejaria portuguesa. Para isso, será criado um conjunto de dados a partir de imagens das fachadas dos edifícios das cidades de Portugal. Esta informação será utilizada para treinar um algoritmo de inteligência artificial. Para chegar ao resultado este projeto passa por uma explicação sobre o design de superfície, conceituando-o. Descreve a azulejaria portuguesa como fator de identidade do povo português e representante cultural de identidade, bem como seus padrões de estrutura e forma de arte. Por fim, faz um breve estado da arte sobre inteligência artificial e a arquitetura de processamento de imagem que será utilizada para o desenvolvimento.
 
 ---
 
-## INTRODUÇÃO
+### INTRODUÇÃO
 
 Desde a disponibilização do ChatGPT ao público em geral, em novembro de 2022 (Teixeira, 2023), o tema Inteligência Artificial (IA) está em voga, principalmente quando se considera o temor relativo ao seu potencial negativo (Arntz et al., 2017). Porém, é fato que as IA's vieram para ficar (Howley, 2023) e, assim como a prensa de Gutenberg, esta tecnologia tem a capacidade de revolucionar o desenvolvimento da humanidade.
 
@@ -20,7 +33,7 @@ Neste contexto, este trabalho se baseia e pretende experimentar. Visa-se constru
 
 ---
 
-## DESIGN DE SUPERFÍCIE
+### DESIGN DE SUPERFÍCIE
 
 Para delimitação do âmbito deste projeto, é necessário definir o conceito de “módulo” utilizado em Design de Superfície (DS). Esta concepção demarcará o comportamento da aplicação a ser desenvolvida.
 
@@ -28,7 +41,7 @@ No DS, o módulo é a parte mais básica de um todo. “É a unidade básica de 
 
 ---
 
-## AZULEJO, PORTUGAL, ARTE E CULTURA
+### AZULEJO, PORTUGAL, ARTE E CULTURA
 
 Segundo Mateus Miguel de Souza (2019), o azulejo refere-se ao ladrilho cerâmico com uma das faces decorada com esmaltes, destinado à ornamentação de superfícies.
 
@@ -38,7 +51,7 @@ A criação de azulejos em Portugal divide-se em dois tipos: pintura sobre cerâ
 
 ---
 
-## INTELIGÊNCIA ARTIFICIAL
+### INTELIGÊNCIA ARTIFICIAL
 
 O conceito moderno de IA remonta à década de 1950, com Alan Turing e seu artigo “Computing Machinery and Intelligence” (Turing, 1950). O primeiro grande trabalho prático foi de McCulloch e Pitts (1943), que propuseram o modelo de neurônio artificial baseado em estímulos biológicos.
 
@@ -46,7 +59,7 @@ As redes neurais artificiais (RNAs) possuem arquitetura e algoritmo de aprendiza
 
 ---
 
-## GENERATIVE ADVERSARIAL NETWORKS (GANs)
+### GENERATIVE ADVERSARIAL NETWORKS (GANs)
 
 Este trabalho utiliza GANs, compostas por duas redes: a geradora (G) e a discriminadora (D). A G tenta criar imagens realistas, enquanto a D tenta distinguir imagens reais das geradas. Essa competição resulta em redes cada vez mais eficientes (Machado, 2018).
 
@@ -54,7 +67,7 @@ Há diversas arquiteturas de GANs (DCGAN, WGAN, BigGAN). O projeto buscará a ma
 
 ---
 
-## METODOLOGIA
+### METODOLOGIA
 
 A figura abaixo representa as etapas do projeto:
 
@@ -68,13 +81,13 @@ A figura abaixo representa as etapas do projeto:
 
 ---
 
-## CONCLUSÃO
+### CONCLUSÃO
 
 Este trabalho entrega à comunidade acadêmica um software gerador e um dataset de azulejos. Explora a arte generativa com redes neurais, propondo futuras aplicações que permitam a criação automatizada de superfícies completas por IA.
 
 ---
 
-## REFERÊNCIAS
+### REFERÊNCIAS
 
 - Abadi et al. (2015). *TensorFlow: Large-Scale Machine Learning...*
 - Andrade, M. (2005). *A representação gráfica de projetos modulares...*
