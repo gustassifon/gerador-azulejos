@@ -3,3 +3,14 @@
 
 # Ignorar os arquivos de cache do Python
 **/__pycache__
+
+# Ignora todos os diretório abaixo da pasta "/imagens". Os demais arquivos sob essa pasta não são ignorados
+/imagens/*/
+
+# Ignora a pasta criada com as imagens geradas em cada época para os resutlados de teste. Os demais conteúdos dos
+# resultados deixo anexado ao projeto para análises. As imagens são retiradas por causa do tamanho e questões de
+# epaço no GitHub
+resultado/*/imgs
+
+# Ignora os arquivos compactados do projeto que foram disponibilizados em servidor separado, fora do GitHub
+*.tar.xz
