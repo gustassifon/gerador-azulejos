@@ -1,0 +1,157 @@
+2025-07-31 10:25:39 -> -----> Início treinamento DCGANKera3 <-----
+2025-07-31 10:25:39 -> Criando o dataset...
+2025-07-31 10:25:42 -> Criando o discriminador...
+2025-07-31 10:25:42 -> Model: "discriminator"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Layer (type)                         ┃ Output Shape                ┃         Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ conv2d (Conv2D)                      │ (None, 32, 32, 64)          │           3,136 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ leaky_re_lu (LeakyReLU)              │ (None, 32, 32, 64)          │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_1 (Conv2D)                    │ (None, 16, 16, 128)         │         131,200 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ leaky_re_lu_1 (LeakyReLU)            │ (None, 16, 16, 128)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_2 (Conv2D)                    │ (None, 8, 8, 128)           │         262,272 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ leaky_re_lu_2 (LeakyReLU)            │ (None, 8, 8, 128)           │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ flatten (Flatten)                    │ (None, 8192)                │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout (Dropout)                    │ (None, 8192)                │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dense (Dense)                        │ (None, 1)                   │           8,193 │
+└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘
+ Total params: 404,801 (1.54 MB)
+ Trainable params: 404,801 (1.54 MB)
+ Non-trainable params: 0 (0.00 B)
+
+2025-07-31 10:25:42 -> Criando o gerador com ruido de tamanho: 128
+2025-07-31 10:25:42 -> Model: "generator"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Layer (type)                         ┃ Output Shape                ┃         Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ dense_1 (Dense)                      │ (None, 8192)                │       1,056,768 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ reshape (Reshape)                    │ (None, 8, 8, 128)           │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_transpose (Conv2DTranspose)   │ (None, 16, 16, 128)         │         262,272 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ leaky_re_lu_3 (LeakyReLU)            │ (None, 16, 16, 128)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_transpose_1 (Conv2DTranspose) │ (None, 32, 32, 256)         │         524,544 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ leaky_re_lu_4 (LeakyReLU)            │ (None, 32, 32, 256)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_transpose_2 (Conv2DTranspose) │ (None, 64, 64, 512)         │       2,097,664 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ leaky_re_lu_5 (LeakyReLU)            │ (None, 64, 64, 512)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_3 (Conv2D)                    │ (None, 64, 64, 3)           │          38,403 │
+└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘
+ Total params: 3,979,651 (15.18 MB)
+ Trainable params: 3,979,651 (15.18 MB)
+ Non-trainable params: 0 (0.00 B)
+
+2025-07-31 10:25:42 -> Quantidade de épocas: 100
+2025-07-31 10:26:35 -> Terminando o processamento da época: 0 - Logs: {'d_loss': 0.5083791613578796, 'g_loss': 1.6784155368804932}
+2025-07-31 10:26:58 -> Terminando o processamento da época: 1 - Logs: {'d_loss': 0.7828248739242554, 'g_loss': 1.878887414932251}
+2025-07-31 10:27:22 -> Terminando o processamento da época: 2 - Logs: {'d_loss': 0.6378418803215027, 'g_loss': 1.3765044212341309}
+2025-07-31 10:27:45 -> Terminando o processamento da época: 3 - Logs: {'d_loss': 0.7504669427871704, 'g_loss': 0.7360895276069641}
+2025-07-31 10:28:08 -> Terminando o processamento da época: 4 - Logs: {'d_loss': 0.6416783928871155, 'g_loss': 0.8355357050895691}
+2025-07-31 10:28:31 -> Terminando o processamento da época: 5 - Logs: {'d_loss': 0.5889028310775757, 'g_loss': 1.0793421268463135}
+2025-07-31 10:28:55 -> Terminando o processamento da época: 6 - Logs: {'d_loss': 0.7004982829093933, 'g_loss': 1.444720983505249}
+2025-07-31 10:29:18 -> Terminando o processamento da época: 7 - Logs: {'d_loss': 0.6288081407546997, 'g_loss': 0.8767621517181396}
+2025-07-31 10:29:41 -> Terminando o processamento da época: 8 - Logs: {'d_loss': 0.6651843190193176, 'g_loss': 1.2350810766220093}
+2025-07-31 10:30:04 -> Terminando o processamento da época: 9 - Logs: {'d_loss': 0.8169209957122803, 'g_loss': 1.7239913940429688}
+2025-07-31 10:30:28 -> Terminando o processamento da época: 10 - Logs: {'d_loss': 0.6831852793693542, 'g_loss': 1.0518518686294556}
+2025-07-31 10:30:51 -> Terminando o processamento da época: 11 - Logs: {'d_loss': 0.760522723197937, 'g_loss': 1.4124644994735718}
+2025-07-31 10:31:14 -> Terminando o processamento da época: 12 - Logs: {'d_loss': 0.9065330624580383, 'g_loss': 1.097037434577942}
+2025-07-31 10:31:38 -> Terminando o processamento da época: 13 - Logs: {'d_loss': 0.7275327444076538, 'g_loss': 1.2283074855804443}
+2025-07-31 10:32:01 -> Terminando o processamento da época: 14 - Logs: {'d_loss': 0.4564136266708374, 'g_loss': 1.893096923828125}
+2025-07-31 10:32:25 -> Terminando o processamento da época: 15 - Logs: {'d_loss': 0.473572701215744, 'g_loss': 1.798306941986084}
+2025-07-31 10:32:48 -> Terminando o processamento da época: 16 - Logs: {'d_loss': 0.7629958391189575, 'g_loss': 1.1503794193267822}
+2025-07-31 10:33:11 -> Terminando o processamento da época: 17 - Logs: {'d_loss': 0.6252151131629944, 'g_loss': 1.0485904216766357}
+2025-07-31 10:33:35 -> Terminando o processamento da época: 18 - Logs: {'d_loss': 0.5871763229370117, 'g_loss': 1.0718659162521362}
+2025-07-31 10:33:58 -> Terminando o processamento da época: 19 - Logs: {'d_loss': 0.6658831834793091, 'g_loss': 1.361059546470642}
+2025-07-31 10:34:22 -> Terminando o processamento da época: 20 - Logs: {'d_loss': 0.5797466039657593, 'g_loss': 2.0588738918304443}
+2025-07-31 10:34:45 -> Terminando o processamento da época: 21 - Logs: {'d_loss': 0.6797048449516296, 'g_loss': 1.3076709508895874}
+2025-07-31 10:35:09 -> Terminando o processamento da época: 22 - Logs: {'d_loss': 0.7400193214416504, 'g_loss': 0.9185630083084106}
+2025-07-31 10:35:32 -> Terminando o processamento da época: 23 - Logs: {'d_loss': 0.5939162373542786, 'g_loss': 1.3010668754577637}
+2025-07-31 10:35:56 -> Terminando o processamento da época: 24 - Logs: {'d_loss': 0.49296751618385315, 'g_loss': 1.3695064783096313}
+2025-07-31 10:36:19 -> Terminando o processamento da época: 25 - Logs: {'d_loss': 0.7254299521446228, 'g_loss': 1.0893515348434448}
+2025-07-31 10:36:43 -> Terminando o processamento da época: 26 - Logs: {'d_loss': 0.5747429728507996, 'g_loss': 1.1479579210281372}
+2025-07-31 10:37:06 -> Terminando o processamento da época: 27 - Logs: {'d_loss': 0.7030970454216003, 'g_loss': 0.9219037890434265}
+2025-07-31 10:37:29 -> Terminando o processamento da época: 28 - Logs: {'d_loss': 0.5834805965423584, 'g_loss': 1.1018506288528442}
+2025-07-31 10:37:53 -> Terminando o processamento da época: 29 - Logs: {'d_loss': 0.47621893882751465, 'g_loss': 1.2370665073394775}
+2025-07-31 10:38:16 -> Terminando o processamento da época: 30 - Logs: {'d_loss': 0.6739860773086548, 'g_loss': 0.9557214975357056}
+2025-07-31 10:38:39 -> Terminando o processamento da época: 31 - Logs: {'d_loss': 0.802305281162262, 'g_loss': 1.7285966873168945}
+2025-07-31 10:39:03 -> Terminando o processamento da época: 32 - Logs: {'d_loss': 0.8526978492736816, 'g_loss': 1.5583614110946655}
+2025-07-31 10:39:27 -> Terminando o processamento da época: 33 - Logs: {'d_loss': 0.4600740969181061, 'g_loss': 2.7011594772338867}
+2025-07-31 10:39:50 -> Terminando o processamento da época: 34 - Logs: {'d_loss': 0.6106184124946594, 'g_loss': 1.108503818511963}
+2025-07-31 10:40:13 -> Terminando o processamento da época: 35 - Logs: {'d_loss': 0.663759708404541, 'g_loss': 1.152499794960022}
+2025-07-31 10:40:37 -> Terminando o processamento da época: 36 - Logs: {'d_loss': 0.6474301218986511, 'g_loss': 1.2210097312927246}
+2025-07-31 10:41:00 -> Terminando o processamento da época: 37 - Logs: {'d_loss': 0.7483829855918884, 'g_loss': 1.248689889907837}
+2025-07-31 10:41:23 -> Terminando o processamento da época: 38 - Logs: {'d_loss': 0.6791088581085205, 'g_loss': 1.2017332315444946}
+2025-07-31 10:41:47 -> Terminando o processamento da época: 39 - Logs: {'d_loss': 0.6456799507141113, 'g_loss': 1.1659045219421387}
+2025-07-31 10:42:11 -> Terminando o processamento da época: 40 - Logs: {'d_loss': 0.6320359706878662, 'g_loss': 1.3338637351989746}
+2025-07-31 10:42:34 -> Terminando o processamento da época: 41 - Logs: {'d_loss': 0.5588693022727966, 'g_loss': 1.3171203136444092}
+2025-07-31 10:42:57 -> Terminando o processamento da época: 42 - Logs: {'d_loss': 0.7266846299171448, 'g_loss': 0.8930668830871582}
+2025-07-31 10:43:21 -> Terminando o processamento da época: 43 - Logs: {'d_loss': 0.7023344039916992, 'g_loss': 1.1163731813430786}
+2025-07-31 10:43:44 -> Terminando o processamento da época: 44 - Logs: {'d_loss': 0.6666313409805298, 'g_loss': 1.5838520526885986}
+2025-07-31 10:44:07 -> Terminando o processamento da época: 45 - Logs: {'d_loss': 0.7176709175109863, 'g_loss': 0.9030764698982239}
+2025-07-31 10:44:31 -> Terminando o processamento da época: 46 - Logs: {'d_loss': 0.6226556897163391, 'g_loss': 1.4157700538635254}
+2025-07-31 10:44:54 -> Terminando o processamento da época: 47 - Logs: {'d_loss': 0.755692720413208, 'g_loss': 0.9724981188774109}
+2025-07-31 10:45:17 -> Terminando o processamento da época: 48 - Logs: {'d_loss': 0.7433318495750427, 'g_loss': 0.9581642746925354}
+2025-07-31 10:45:40 -> Terminando o processamento da época: 49 - Logs: {'d_loss': 0.5744385719299316, 'g_loss': 1.669608473777771}
+2025-07-31 10:46:04 -> Terminando o processamento da época: 50 - Logs: {'d_loss': 0.6560147404670715, 'g_loss': 1.0859297513961792}
+2025-07-31 10:46:27 -> Terminando o processamento da época: 51 - Logs: {'d_loss': 0.6832931637763977, 'g_loss': 1.0564823150634766}
+2025-07-31 10:46:50 -> Terminando o processamento da época: 52 - Logs: {'d_loss': 0.5662372708320618, 'g_loss': 1.022025227546692}
+2025-07-31 10:47:13 -> Terminando o processamento da época: 53 - Logs: {'d_loss': 0.7610313296318054, 'g_loss': 1.0214362144470215}
+2025-07-31 10:47:37 -> Terminando o processamento da época: 54 - Logs: {'d_loss': 0.5951643586158752, 'g_loss': 1.117372751235962}
+2025-07-31 10:48:00 -> Terminando o processamento da época: 55 - Logs: {'d_loss': 0.5886440873146057, 'g_loss': 1.2275880575180054}
+2025-07-31 10:48:24 -> Terminando o processamento da época: 56 - Logs: {'d_loss': 0.8253968954086304, 'g_loss': 0.9914150834083557}
+2025-07-31 10:48:47 -> Terminando o processamento da época: 57 - Logs: {'d_loss': 0.7568120956420898, 'g_loss': 1.2929720878601074}
+2025-07-31 10:49:10 -> Terminando o processamento da época: 58 - Logs: {'d_loss': 0.546523928642273, 'g_loss': 1.0709052085876465}
+2025-07-31 10:49:33 -> Terminando o processamento da época: 59 - Logs: {'d_loss': 0.6102963089942932, 'g_loss': 2.0521152019500732}
+2025-07-31 10:49:57 -> Terminando o processamento da época: 60 - Logs: {'d_loss': 0.5719389915466309, 'g_loss': 1.3676085472106934}
+2025-07-31 10:50:20 -> Terminando o processamento da época: 61 - Logs: {'d_loss': 0.6564870476722717, 'g_loss': 1.0771633386611938}
+2025-07-31 10:50:43 -> Terminando o processamento da época: 62 - Logs: {'d_loss': 0.6105749011039734, 'g_loss': 1.2445353269577026}
+2025-07-31 10:51:06 -> Terminando o processamento da época: 63 - Logs: {'d_loss': 0.7061647176742554, 'g_loss': 1.0586862564086914}
+2025-07-31 10:51:29 -> Terminando o processamento da época: 64 - Logs: {'d_loss': 0.7247663140296936, 'g_loss': 0.8962148427963257}
+2025-07-31 10:51:53 -> Terminando o processamento da época: 65 - Logs: {'d_loss': 0.577060878276825, 'g_loss': 1.1839895248413086}
+2025-07-31 10:52:16 -> Terminando o processamento da época: 66 - Logs: {'d_loss': 0.5541091561317444, 'g_loss': 1.1727641820907593}
+2025-07-31 10:52:39 -> Terminando o processamento da época: 67 - Logs: {'d_loss': 0.5621747374534607, 'g_loss': 1.2732847929000854}
+2025-07-31 10:53:02 -> Terminando o processamento da época: 68 - Logs: {'d_loss': 0.734437108039856, 'g_loss': 1.1938939094543457}
+2025-07-31 10:53:25 -> Terminando o processamento da época: 69 - Logs: {'d_loss': 0.6950743794441223, 'g_loss': 1.048000454902649}
+2025-07-31 10:53:49 -> Terminando o processamento da época: 70 - Logs: {'d_loss': 0.6254498362541199, 'g_loss': 0.9582058787345886}
+2025-07-31 10:54:12 -> Terminando o processamento da época: 71 - Logs: {'d_loss': 0.6099060773849487, 'g_loss': 1.0617977380752563}
+2025-07-31 10:54:35 -> Terminando o processamento da época: 72 - Logs: {'d_loss': 0.601269543170929, 'g_loss': 1.1424264907836914}
+2025-07-31 10:54:58 -> Terminando o processamento da época: 73 - Logs: {'d_loss': 0.5651968717575073, 'g_loss': 0.9846237301826477}
+2025-07-31 10:55:21 -> Terminando o processamento da época: 74 - Logs: {'d_loss': 0.7486376762390137, 'g_loss': 1.4043768644332886}
+2025-07-31 10:55:44 -> Terminando o processamento da época: 75 - Logs: {'d_loss': 0.5135597586631775, 'g_loss': 1.610255479812622}
+2025-07-31 10:56:08 -> Terminando o processamento da época: 76 - Logs: {'d_loss': 0.6885269284248352, 'g_loss': 1.1034157276153564}
+2025-07-31 10:56:31 -> Terminando o processamento da época: 77 - Logs: {'d_loss': 0.580939531326294, 'g_loss': 0.8850778341293335}
+2025-07-31 10:56:54 -> Terminando o processamento da época: 78 - Logs: {'d_loss': 0.5964699387550354, 'g_loss': 1.3148894309997559}
+2025-07-31 10:57:17 -> Terminando o processamento da época: 79 - Logs: {'d_loss': 0.6663798689842224, 'g_loss': 1.4415732622146606}
+2025-07-31 10:57:41 -> Terminando o processamento da época: 80 - Logs: {'d_loss': 0.6282033920288086, 'g_loss': 1.238559603691101}
+2025-07-31 10:58:03 -> Terminando o processamento da época: 81 - Logs: {'d_loss': 0.6927863955497742, 'g_loss': 0.9689890742301941}
+2025-07-31 10:58:27 -> Terminando o processamento da época: 82 - Logs: {'d_loss': 0.6116774678230286, 'g_loss': 1.1218608617782593}
+2025-07-31 10:58:50 -> Terminando o processamento da época: 83 - Logs: {'d_loss': 0.6882500648498535, 'g_loss': 1.001855731010437}
+2025-07-31 10:59:13 -> Terminando o processamento da época: 84 - Logs: {'d_loss': 0.6957880258560181, 'g_loss': 1.4162700176239014}
+2025-07-31 10:59:36 -> Terminando o processamento da época: 85 - Logs: {'d_loss': 0.7554674744606018, 'g_loss': 1.5073436498641968}
+2025-07-31 11:00:00 -> Terminando o processamento da época: 86 - Logs: {'d_loss': 0.7733281850814819, 'g_loss': 1.783576488494873}
+2025-07-31 11:00:23 -> Terminando o processamento da época: 87 - Logs: {'d_loss': 0.3975597023963928, 'g_loss': 2.0977649688720703}
+2025-07-31 11:00:46 -> Terminando o processamento da época: 88 - Logs: {'d_loss': 0.7137145400047302, 'g_loss': 0.8912558555603027}
+2025-07-31 11:01:09 -> Terminando o processamento da época: 89 - Logs: {'d_loss': 0.6729682087898254, 'g_loss': 1.6118931770324707}
+2025-07-31 11:01:32 -> Terminando o processamento da época: 90 - Logs: {'d_loss': 0.5832537412643433, 'g_loss': 1.2473338842391968}
+2025-07-31 11:01:55 -> Terminando o processamento da época: 91 - Logs: {'d_loss': 0.8063746094703674, 'g_loss': 1.1773103475570679}
+2025-07-31 11:02:19 -> Terminando o processamento da época: 92 - Logs: {'d_loss': 0.5961996912956238, 'g_loss': 1.0393418073654175}
+2025-07-31 11:02:42 -> Terminando o processamento da época: 93 - Logs: {'d_loss': 0.6554466485977173, 'g_loss': 1.14577317237854}
+2025-07-31 11:03:06 -> Terminando o processamento da época: 94 - Logs: {'d_loss': 0.6706972122192383, 'g_loss': 0.8716089725494385}
+2025-07-31 11:03:28 -> Terminando o processamento da época: 95 - Logs: {'d_loss': 0.6121446490287781, 'g_loss': 1.0327047109603882}
+2025-07-31 11:03:52 -> Terminando o processamento da época: 96 - Logs: {'d_loss': 0.7337267398834229, 'g_loss': 1.142385721206665}
+2025-07-31 11:04:16 -> Terminando o processamento da época: 97 - Logs: {'d_loss': 1.0022732019424438, 'g_loss': 2.2165210247039795}
+2025-07-31 11:04:39 -> Terminando o processamento da época: 98 - Logs: {'d_loss': 0.6498708724975586, 'g_loss': 1.175390601158142}
+2025-07-31 11:05:02 -> Terminando o processamento da época: 99 - Logs: {'d_loss': 0.6746339797973633, 'g_loss': 0.9084606766700745}

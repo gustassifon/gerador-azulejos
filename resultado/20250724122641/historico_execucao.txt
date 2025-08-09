@@ -1,0 +1,107 @@
+2025-07-24 12:26:41 -> -----> Início treinamento DCGANKera3 <-----
+2025-07-24 12:26:41 -> Criando o dataset...
+2025-07-24 12:26:43 -> Criando o discriminador...
+2025-07-24 12:26:44 -> Model: "discriminator"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Layer (type)                         ┃ Output Shape                ┃         Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ conv2d (Conv2D)                      │ (None, 32, 32, 64)          │           3,136 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ leaky_re_lu (LeakyReLU)              │ (None, 32, 32, 64)          │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_1 (Conv2D)                    │ (None, 16, 16, 128)         │         131,200 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ leaky_re_lu_1 (LeakyReLU)            │ (None, 16, 16, 128)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_2 (Conv2D)                    │ (None, 8, 8, 128)           │         262,272 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ leaky_re_lu_2 (LeakyReLU)            │ (None, 8, 8, 128)           │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ flatten (Flatten)                    │ (None, 8192)                │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout (Dropout)                    │ (None, 8192)                │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dense (Dense)                        │ (None, 1)                   │           8,193 │
+└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘
+ Total params: 404,801 (1.54 MB)
+ Trainable params: 404,801 (1.54 MB)
+ Non-trainable params: 0 (0.00 B)
+
+2025-07-24 12:26:44 -> Criando o gerador com ruido de tamanho: 128
+2025-07-24 12:26:44 -> Model: "generator"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Layer (type)                         ┃ Output Shape                ┃         Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ dense_1 (Dense)                      │ (None, 8192)                │       1,056,768 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ reshape (Reshape)                    │ (None, 8, 8, 128)           │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_transpose (Conv2DTranspose)   │ (None, 16, 16, 128)         │         262,272 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ leaky_re_lu_3 (LeakyReLU)            │ (None, 16, 16, 128)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_transpose_1 (Conv2DTranspose) │ (None, 32, 32, 256)         │         524,544 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ leaky_re_lu_4 (LeakyReLU)            │ (None, 32, 32, 256)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_transpose_2 (Conv2DTranspose) │ (None, 64, 64, 512)         │       2,097,664 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ leaky_re_lu_5 (LeakyReLU)            │ (None, 64, 64, 512)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_3 (Conv2D)                    │ (None, 64, 64, 3)           │          38,403 │
+└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘
+ Total params: 3,979,651 (15.18 MB)
+ Trainable params: 3,979,651 (15.18 MB)
+ Non-trainable params: 0 (0.00 B)
+
+2025-07-24 12:26:44 -> Quantidade de épocas: 50
+2025-07-24 12:27:34 -> Terminando o processamento da época: 0
+2025-07-24 12:27:57 -> Terminando o processamento da época: 1
+2025-07-24 12:28:20 -> Terminando o processamento da época: 2
+2025-07-24 12:28:44 -> Terminando o processamento da época: 3
+2025-07-24 12:29:07 -> Terminando o processamento da época: 4
+2025-07-24 12:29:30 -> Terminando o processamento da época: 5
+2025-07-24 12:29:53 -> Terminando o processamento da época: 6
+2025-07-24 12:30:16 -> Terminando o processamento da época: 7
+2025-07-24 12:30:40 -> Terminando o processamento da época: 8
+2025-07-24 12:31:03 -> Terminando o processamento da época: 9
+2025-07-24 12:31:26 -> Terminando o processamento da época: 10
+2025-07-24 12:31:49 -> Terminando o processamento da época: 11
+2025-07-24 12:32:13 -> Terminando o processamento da época: 12
+2025-07-24 12:32:36 -> Terminando o processamento da época: 13
+2025-07-24 12:32:59 -> Terminando o processamento da época: 14
+2025-07-24 12:33:23 -> Terminando o processamento da época: 15
+2025-07-24 12:33:47 -> Terminando o processamento da época: 16
+2025-07-24 12:34:10 -> Terminando o processamento da época: 17
+2025-07-24 12:34:34 -> Terminando o processamento da época: 18
+2025-07-24 12:34:57 -> Terminando o processamento da época: 19
+2025-07-24 12:35:21 -> Terminando o processamento da época: 20
+2025-07-24 12:35:45 -> Terminando o processamento da época: 21
+2025-07-24 12:36:08 -> Terminando o processamento da época: 22
+2025-07-24 12:36:31 -> Terminando o processamento da época: 23
+2025-07-24 12:36:54 -> Terminando o processamento da época: 24
+2025-07-24 12:37:18 -> Terminando o processamento da época: 25
+2025-07-24 12:37:41 -> Terminando o processamento da época: 26
+2025-07-24 12:38:04 -> Terminando o processamento da época: 27
+2025-07-24 12:38:28 -> Terminando o processamento da época: 28
+2025-07-24 12:38:51 -> Terminando o processamento da época: 29
+2025-07-24 12:39:15 -> Terminando o processamento da época: 30
+2025-07-24 12:39:39 -> Terminando o processamento da época: 31
+2025-07-24 12:40:02 -> Terminando o processamento da época: 32
+2025-07-24 12:40:26 -> Terminando o processamento da época: 33
+2025-07-24 12:40:49 -> Terminando o processamento da época: 34
+2025-07-24 12:41:13 -> Terminando o processamento da época: 35
+2025-07-24 12:41:36 -> Terminando o processamento da época: 36
+2025-07-24 12:41:59 -> Terminando o processamento da época: 37
+2025-07-24 12:42:23 -> Terminando o processamento da época: 38
+2025-07-24 12:42:46 -> Terminando o processamento da época: 39
+2025-07-24 12:43:09 -> Terminando o processamento da época: 40
+2025-07-24 12:43:33 -> Terminando o processamento da época: 41
+2025-07-24 12:43:56 -> Terminando o processamento da época: 42
+2025-07-24 12:44:19 -> Terminando o processamento da época: 43
+2025-07-24 12:44:43 -> Terminando o processamento da época: 44
+2025-07-24 12:45:06 -> Terminando o processamento da época: 45
+2025-07-24 12:45:30 -> Terminando o processamento da época: 46
+2025-07-24 12:45:53 -> Terminando o processamento da época: 47
+2025-07-24 12:46:16 -> Terminando o processamento da época: 48
+2025-07-24 12:46:40 -> Terminando o processamento da época: 49

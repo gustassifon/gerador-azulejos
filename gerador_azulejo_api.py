@@ -1,13 +1,12 @@
 import io
 import os
 import random
+from pathlib import Path
 
 import cv2
 import keras
 import tensorflow as tf
 from flask import Flask, send_file
-from gan.dcgan_keras3 import GAN
-from pathlib import Path
 
 from config.parametros_api import ParametrosApi
 
