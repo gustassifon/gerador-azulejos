@@ -67,7 +67,15 @@ class ParametrosMain():
             type=int,
             default=100,
             help="Indicar a quantidade de épocas de treinameto, parâmetro opcional e por default utliza 100 épocas.",
+        )
 
+        treinar.add_argument(
+            "-dcgan",
+            required=False,
+            type=str,
+            default='PADRAO',
+            help="Indicar a implementação utilizada, se PADRAO ou KERAS3",
+            choices=['PADRAO', 'KERAS3'],
         )
 
         # Tratamento para a função "levantar" API

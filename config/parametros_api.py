@@ -12,6 +12,7 @@ class ParametrosApi():
             "caminho_arquivo_modelo",
             type=str,
             help="Indicar o caminho para o arquivo que contém o modelo da DCGAN/IA treinado.",
+            nargs="?",
         )
 
     def recuperar_parametros(self):

@@ -3,11 +3,10 @@ import math
 import os
 import time
 
-import numpy as np
 import cv2
-
-import tensorflow as tf
 import keras
+import numpy as np
+import tensorflow as tf
 from keras import Sequential
 from keras import layers
 from tqdm import tqdm
@@ -23,14 +22,21 @@ class DCGAN:
             # Quantidade de canais que tem a imagem, o padrão será 3 canais (RGB).
             canais_imagem=3,
             # Tamanho do lote/batch usado para o treinamento do modelo.
-            tamanho_lote=32,
+            # Alterado em 15/07/2025 para um lote de 64
+            # tamanho_lote=32,
+            tamanho_lote=64,
 
 
     ):
         # O maior tamanho e inicial de filtro usado como parâmetro para as funções Conv2D e Conv2DTranspose
         self.tamanho_filtro_maximo = 1024
         self.tamanho_filtro_minimo = 16
-        self.tamanho_kernel = 3
+        # Alterado em 16/07/2025 - testar kernel maior para ver se resulta em diferenças
+        # self.tamanho_kernel = 3
+        # Depois de alterado de 3 para 10 o resultado piorou. Instabilidade de rede e imagens mais pixeladas nova tenta-
+        # tiva de modificar o kernel para 6
+        # self.tamanho_kernel = 10
+        self.tamanho_kernel = 6
         self.tamanho_strides = 2
         self.dimensao_ruido = dimensao_ruido
         self.tamanho_imagem = tamanho_imagem
@@ -55,8 +61,11 @@ class DCGAN:
         self.funcao_cross_entropy = keras.losses.BinaryCrossentropy()
 
         # Otimizadores usados para o treinamento
-        self.otimizador_discriminador = keras.optimizers.Adam(1e-3)
-        self.otimizador_gerador = keras.optimizers.Adam(1e-3)
+        # Alterado em 15/07/2025, mudança do Adam para tentar um melhor treinamento
+        # self.otimizador_discriminador = keras.optimizers.Adam(1e-3)
+        # self.otimizador_gerador = keras.optimizers.Adam(1e-3)
+        self.otimizador_discriminador = keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5, beta_2=0.999)
+        self.otimizador_gerador = keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5, beta_2=0.999)
 
         self.dataset = None
 
@@ -69,6 +78,23 @@ class DCGAN:
                 arquivo.write(f'{momento} -> {mensagem}{os.linesep}')
         else:
             print(mensagem)
+
+    def __logger_parametros(self):
+        self.__logger('---- Variáveis de parâmetro/classe sendo usadas nesta execução')
+        self.__logger('tamanho_filtro_maximo: ' + str(self.tamanho_filtro_maximo))
+        self.__logger('tamanho_filtro_minimo: ' + str(self.tamanho_filtro_minimo))
+        self.__logger('tamanho_kernel: ' + str(self.tamanho_kernel))
+        self.__logger('tamanho_strides: ' + str(self.tamanho_strides))
+        self.__logger('dimensao_ruido: ' + str(self.dimensao_ruido))
+        self.__logger('tamanho_imagem: ' + str(self.tamanho_imagem))
+        self.__logger('canais_imagem: ' + str(self.canais_imagem))
+        self.__logger('tamanho_lote: ' + str(self.tamanho_lote))
+        self.__logger('epocas: ' + str(self.epocas))
+        self.__logger('caminho_imagens_dataset: ' + str(self.caminho_imagens_dataset))
+        self.__logger('caminho_resultado: ' + str(self.caminho_resultado))
+        self.__logger('caminho_historico_execucao: ' + str(self.caminho_historico_execucao))
+        self.__logger('caminho_imagens_treinamento: ' + str(self.caminho_imagens_treinamento))
+        self.__logger('caminho_modelo_treinado: ' + str(self.caminho_modelo_treinado))
 
 
     def __calcular_perda_discriminador(self, resultado_real, resultado_falso):
@@ -99,7 +125,9 @@ class DCGAN:
         # o vetor de ruído para um tensor 4x4 com 1024 filtros.
         modelo.add(layers.Input(shape=(self.dimensao_ruido,)))
         modelo.add(layers.Dense(4 * 4 * self.tamanho_filtro_maximo, use_bias=False))
-        modelo.add(layers.BatchNormalization(momentum=0.8))
+        # Alterado em 15/07/2025
+        # modelo.add(layers.BatchNormalization(momentum=0.8))
+        modelo.add(layers.BatchNormalization())
         modelo.add(layers.LeakyReLU())
 
         # Remodela para tensor 4x4x1024.
@@ -126,8 +154,12 @@ class DCGAN:
                     strides=self.tamanho_strides
                 )
             )
-            modelo.add(layers.BatchNormalization(momentum=0.8))
-            modelo.add(layers.LeakyReLU())
+            # Alterado em 15/07/2025
+            # modelo.add(layers.BatchNormalization(momentum=0.8))
+            modelo.add(layers.BatchNormalization())
+            # Alterado em 16/07/2025
+            # modelo.add(layers.LeakyReLU())
+            modelo.add(layers.LeakyReLU(alpha=0.2))
 
         # Camada final: Gera a imagem colorida com 3 canais. A ativação tanh normaliza a saída para [-1,1].
         modelo.add(
@@ -139,6 +171,7 @@ class DCGAN:
                 activation='tanh'
             )
         )
+        modelo.name = 'gerador'
 
         return modelo
 
@@ -173,13 +206,16 @@ class DCGAN:
                     strides=self.tamanho_strides
                 )
             )
-            modelo.add(layers.Dropout(0.3))
-            modelo.add(layers.LeakyReLU(negative_slope=0.2))
+            # Alterado em 15/07/2025 remoção do Dropout alterado o LeakyReLU para alpha e não negative_slope
+            # modelo.add(layers.Dropout(0.3))
+            # modelo.add(layers.LeakyReLU(negative_slope=0.2))
+            modelo.add(layers.LeakyReLU(alpha=0.2))
 
         # O resultado precisa ser um valor único que é avalido probabilisticamente conforme o padrão das imagens usadas
         # para o treinamento.
         modelo.add(layers.Flatten())
         modelo.add(layers.Dense(1, activation='sigmoid'))
+        modelo.name = 'discriminador'
 
         return modelo
 
@@ -328,12 +364,16 @@ class DCGAN:
                 os.mkdir(self.caminho_modelo_treinado)
                 self.caminho_modelo_treinado = os.path.join(self.caminho_modelo_treinado, 'gerador_azulejos.h5')
 
+                self.__logger_parametros()
+
                 if self.__preparar_dataset():
                     # Constrói a estrutuda do modelo gerador.
                     self.gerador = self.__construir_gerador()
+                    self.gerador.summary(print_fn=self.__logger)
 
                     # Constrói a estrutuda do modelo dicriminador.
                     self.discriminador = self.__construir_discriminador()
+                    self.discriminador.summary(print_fn=self.__logger)
 
                     self.__realizar_treinamento()
                     self.gerador.save(self.caminho_modelo_treinado)

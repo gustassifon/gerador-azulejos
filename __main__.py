@@ -1,17 +1,13 @@
-import io
 import os
 import time
 
-import cv2
-import tensorflow as tf
-from flask import Flask, send_file
 from tqdm import tqdm
 
+import gan.dcgan_keras3 as dcgan_keras3
 from config.parametros_main import ParametrosMain
 from formatador.formatador_imagem import FormatadorImagem
 from gan.dcgan import DCGAN
-
-
+from gerador_azulejo_api import levantar_api
 
 
 # Usa a classe FormatadorImagem para ler um diretório e transformar todas as imagens conforme os parâmetros passados na
@@ -65,13 +61,22 @@ if __name__ == "__main__":
         diretorio_dataset = parametros_aplicacao.diretorio_dataset
         diretorio_resultado = parametros_aplicacao.diretorio_resultado
         epocas = parametros_aplicacao.epocas
-        dcgan = DCGAN()
-        dcgan.construir_dcgan(
-            treinar=True,
-            caminho_imagens_dataset=diretorio_dataset,
-            caminho_resultado=diretorio_resultado,
-            epocas=epocas,
-        )
+        implementacao_dcgan = parametros_aplicacao.dcgan
+
+        if implementacao_dcgan == 'KERAS3':
+            dcgan_keras3.funcao_principal(
+                diretorio_dataset=diretorio_dataset,
+                diretorio_resultado=diretorio_resultado,
+                epocas=epocas
+            )
+        else:
+            dcgan = DCGAN()
+            dcgan.construir_dcgan(
+                treinar=True,
+                caminho_imagens_dataset=diretorio_dataset,
+                caminho_resultado=diretorio_resultado,
+                epocas=epocas,
+            )
     else: # api
         caminho_arquivo_modelo = parametros_aplicacao.caminho_arquivo_modelo
-        app.run(debug=True)
+        levantar_api(caminho_arquivo_modelo).run(debug=True)

@@ -2,6 +2,7 @@ import os
 
 import cv2
 
+
 # Recebe o caminho de uma imagem para formatá-la conforme o esperado pela rede neural. Guarda em memória a imagem origi-
 # nal e também as várias transformações feitas na imagem. O construtor já converte a imagem automaticamente, então não
 # há a necesidade de chamar os métodos. Contudo, é possível utilizar os métodos com novas dimensões que não aquelas que

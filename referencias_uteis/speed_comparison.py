@@ -8,10 +8,10 @@
 # Portions of code taken from https://www.tensorflow.org/datasets/keras_example
 # Example by www.github.com/AniAggarwal
 
-import tensorflow as tf
-import tensorflow_datasets as tfds
 from time import time
 
+import tensorflow as tf
+import tensorflow_datasets as tfds
 
 print("TensorFlow version:", tf.__version__)
 
