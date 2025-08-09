@@ -14,3 +14,7 @@ resultado/*/imgs
 
 # Ignora os arquivos compactados do projeto que foram disponibilizados em servidor separado, fora do GitHub
 *.tar.xz
+
+# Arquivos com tamanho maior que o permitido para o GitHub
+modelos/20250716120740_gerador_azulejos.h5
+modelos/20250716135944_gerador_azulejos.h5
