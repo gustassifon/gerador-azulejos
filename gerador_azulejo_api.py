@@ -1,3 +1,4 @@
+import gc
 import io
 import os
 import random
@@ -59,8 +60,9 @@ def levantar_api(caminho_arquivo_modelo: str=None):
         del gerador
         del ruido
         del imagem_gerada
+        gc.collect()
 
-        return io.BytesIO(buffer)
+        return io.BytesIO(buffer.tobytes())
 
     @app.route('/', methods=['GET'])
     def gerar_azulejo():
